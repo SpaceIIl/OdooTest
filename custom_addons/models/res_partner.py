@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 from datetime import date
 
 
@@ -107,3 +108,13 @@ class ResPartner(models.Model):
                 record.birthdate = birthdate
                 record.gender = gender
                 record._compute_age()
+
+    @api.constrains('birthdate', 'personal_id')
+    def _check_birthdate_consistency(self):
+        for record in self:
+            if record.personal_id and record.birthdate:
+                calculated_birthdate, *_ = self._calculate_birthdate_and_gender(record.personal_id)
+                if calculated_birthdate != record.birthdate:
+                    raise ValidationError(
+                        "The entered birthdate does not match the calculated date from the Personal ID."
+                    )
