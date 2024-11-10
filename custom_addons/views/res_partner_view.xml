@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='vat']" position="after">
-                <field name="personal_id"/>
-                <field name="birthdate"/>
-                <field name="gender"/>
-                <field name="age" readonly="1"/>
+                <field name="personal_id" invisible="is_company"/>
+                <field name="birthdate" invisible="is_company"/>
+                <field name="gender" invisible="is_company"/>
+                <field name="age" readonly="1" invisible="is_company"/>
             </xpath>
         </field>
     </record>
