@@ -134,3 +134,15 @@ class ResPartner(models.Model):
                     raise ValidationError(
                         f"The following fields are required for individuals in the Czech Republic: {', '.join(missing_fields)}."
                     )
+
+    def copy(self, default=None):
+        default = dict(default or {})
+
+        default.update({
+            'personal_id': None,
+            'birthdate': None,
+            'gender': None,
+            'age': 0
+        })
+
+        return super(ResPartner, self).copy(default)
