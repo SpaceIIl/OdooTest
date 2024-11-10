@@ -118,3 +118,19 @@ class ResPartner(models.Model):
                     raise ValidationError(
                         "The entered birthdate does not match the calculated date from the Personal ID."
                     )
+
+    @api.constrains('country_id', 'personal_id', 'birthdate', 'gender', 'is_company')
+    def _check_required_fields_for_czech_republic(self):
+        for record in self:
+            if record.country_id and record.country_id.code == 'CZ' and not record.is_company:
+                missing_fields = []
+                if not record.personal_id:
+                    missing_fields.append("Personal ID")
+                if not record.birthdate:
+                    missing_fields.append("Date of Birth")
+                if not record.gender:
+                    missing_fields.append("Gender")
+                if missing_fields:
+                    raise ValidationError(
+                        f"The following fields are required for individuals in the Czech Republic: {', '.join(missing_fields)}."
+                    )
