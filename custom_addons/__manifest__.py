@@ -9,6 +9,7 @@
         'views/res_partner_view.xml',
         'views/res_partner_list_view.xml',
         'views/res_partner_kanban_view.xml',
+        'views/res_partner_search_view.xml',
     ],
     'installable': True,
     'application': False,
